@@ -357,6 +357,24 @@ public class RNPushNotificationHelper {
             }
 
             String message = bundle.getString("message");
+            if (message == null) {
+                Bundle b = (Bundle) bundle.getParcelable("data");
+                if (b != null) {
+                    String data_message = b.getString("message");
+                    String data_alert = b.getString("alert");
+                    if (data_message != null) {
+                        message = data_message;
+                    }
+                    else if (data_alert != null) {
+                        message = data_alert;
+                    }
+                }
+                if (message == null) {
+                    // this happens when a 'data' notification is received - we do not synthesize a local notification in this case
+                    Log.d(LOG_TAG, "Ignore this message if you sent data-only notification. Cannot send to notification centre because there is no 'message/data.message/data.alert' field in: " + bundle);
+                    return;
+                }
+            }
 
             notification.setContentText(message);
 
