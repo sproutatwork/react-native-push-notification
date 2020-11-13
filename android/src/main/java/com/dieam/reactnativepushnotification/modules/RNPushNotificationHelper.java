@@ -358,7 +358,7 @@ public class RNPushNotificationHelper {
 
             String message = bundle.getString("message");
             if (message == null) {
-                Bundle b = (Bundle) bundle.getParcelable("data");
+                Bundle b = (Bundle) bundle.getBundle("data");
                 if (b != null) {
                     String data_message = b.getString("message");
                     String data_alert = b.getString("alert");
