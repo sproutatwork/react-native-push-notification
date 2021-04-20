@@ -214,8 +214,18 @@ public class RNPushNotificationHelper {
 
             String title = bundle.getString("title");
             if (title == null) {
-                ApplicationInfo appInfo = context.getApplicationInfo();
-                title = context.getPackageManager().getApplicationLabel(appInfo).toString();
+                Bundle b = (Bundle) bundle.getBundle("data");
+                if (b != null) {
+                    String data_title = b.getString("title");
+                    if (data_title != null) {
+                        title = data_title;
+                    }
+                }
+            
+                if (title == null) {
+                   ApplicationInfo appInfo = context.getApplicationInfo();
+                   title = context.getPackageManager().getApplicationLabel(appInfo).toString();
+                }
             }
 
             int priority = NotificationCompat.PRIORITY_HIGH;
